@@ -1,0 +1,24 @@
+from fpdf import FPDF
+
+def read_data(file_path):
+    with open(file_path, 'r') as file:
+        data = file.readlines()
+    return data
+
+def generate_pdf(data, output_file):
+    pdf = FPDF()
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    pdf.cell(200, 10, txt="Automated Report", ln=True, align="C")
+    pdf.ln(10)
+    
+    for line in data:
+        pdf.multi_cell(0, 10, line.strip())
+
+    pdf.output(output_file)
+
+if __name__ == "__main__":
+    data = read_data('sample_data.txt')
+    generate_pdf(data, 'report.pdf')
